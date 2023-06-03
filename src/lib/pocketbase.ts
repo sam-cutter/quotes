@@ -1,7 +1,7 @@
 import PocketBase from 'pocketbase';
 
 export async function newSession() {
-	const pb = new PocketBase('http://localhost:8090');
+	const pb = new PocketBase('http://127.0.0.1:8090');
 
 	const initialData = {
 		accuracy: 0,
@@ -14,7 +14,7 @@ export async function newSession() {
 }
 
 export async function getSession(id: string) {
-	const pb = new PocketBase('http://localhost:8090');
+	const pb = new PocketBase('http://127.0.0.1:8090');
 
 	const session = await pb.collection('sessions').getOne(id);
 
