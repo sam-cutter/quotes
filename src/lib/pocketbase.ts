@@ -8,7 +8,15 @@ export async function newSession() {
 		complete: false
 	};
 
-	const record = await pb.collection('sessions').create(initialData);
+	const session = await pb.collection('sessions').create(initialData);
 
-	return record;
+	return session;
+}
+
+export async function getSession(id: string) {
+	const pb = new PocketBase('http://localhost:8090');
+
+	const session = await pb.collection('sessions').getOne(id);
+
+	return session;
 }
