@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
     import { goto } from "$app/navigation";
     import { newSession } from "../lib/pocketbase";
 
     async function handleNewSessionClick() {
         const session = await newSession();
 
-        goto(`/session/${session.id}`);
+        goto(`/sessions/${session.id}`);
     }
 </script>
 
