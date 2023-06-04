@@ -61,6 +61,16 @@ export async function getSessionAttempts(session: Record) {
 	return attempts;
 }
 
+export async function getUnValidatedSessionAttempts(session: Record) {
+	const pb = new PocketBase('http://127.0.0.1:8090');
+
+	const attempts = await pb.collection('attempts').getFullList({
+		filter: `created >= "${session.created}" && session = "${session.id}" && validated = False`
+	});
+
+	return attempts;
+}
+
 export async function getAllSessions() {
 	const pb = new PocketBase('http://127.0.0.1:8090');
 
