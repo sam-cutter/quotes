@@ -21,6 +21,18 @@ export async function getSession(id: string) {
 	return session;
 }
 
+export async function getSessionAttempts(id: string) {
+	const pb = new PocketBase('http://127.0.0.1:8090');
+
+	const session = await getSession(id);
+
+	const attempts = await pb.collection('attempts').getFullList({
+		filter: `created >= "${session.created}" && session = "${id}"`
+	});
+
+	return attempts;
+}
+
 export async function getAllSessions() {
 	const pb = new PocketBase('http://127.0.0.1:8090');
 
