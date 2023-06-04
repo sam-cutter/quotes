@@ -8,6 +8,22 @@ export async function getAllQuotes() {
 	return quotes;
 }
 
+export async function newAttempt(session: string, quote: string) {
+	const pb = new PocketBase('http://127.0.0.1:8090');
+
+	const initialData = {
+		quote: quote,
+		session: session,
+		attempt: '',
+		accuracy: 0,
+		complete: false
+	};
+
+	const attempt = await pb.collection('attempts').create(initialData);
+
+	return attempt;
+}
+
 export async function newSession() {
 	const pb = new PocketBase('http://127.0.0.1:8090');
 
