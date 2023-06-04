@@ -1,4 +1,4 @@
-import PocketBase from 'pocketbase';
+import PocketBase, { Record } from 'pocketbase';
 
 export async function getAllQuotes() {
 	const pb = new PocketBase('http://127.0.0.1:8090');
@@ -8,12 +8,12 @@ export async function getAllQuotes() {
 	return quotes;
 }
 
-export async function newAttempt(session: string, quote: string) {
+export async function newAttempt(session: Record, quote: Record) {
 	const pb = new PocketBase('http://127.0.0.1:8090');
 
 	const initialData = {
-		quote: quote,
-		session: session,
+		quote: quote.id,
+		session: session.id,
 		attempt: '',
 		accuracy: 0,
 		complete: false
@@ -33,6 +33,12 @@ export async function newSession() {
 	};
 
 	const session = await pb.collection('sessions').create(initialData);
+
+	const quotes = await getAllQuotes();
+
+	quotes.forEach(async (quote) => {
+		await newAttempt(session, quote);
+	});
 
 	return session;
 }
